@@ -2,32 +2,8 @@
 #include <locale.h>
 #include <time.h>
 #include <stdlib.h>
-/*
-void swap(int *px, int *py){
-    int t;
-    t=*px;
-    *px=*py; *py=t;
-}
-int main() {
-    printf("Hello, World!\n");
-    int w,x = 1, y = 2, z[10];
-    int *ip; // ip - указатель на int
-    //printf("%d ",*ip);
-    ip = &x ; // теперь ip указывает на х
-    printf("%d ",*ip);
-    int *r =&y;// у теперь равен 1
-    w=*r+ *ip +100;
+#include <string.h>
 
-    printf("r %d ",w);
-    *ip =(*ip)++; // х теперь равен 0
-    printf("%d \n",x);
-    //printf("%d ",*ip);
-    printf("ip %d r %d\n", *ip,*r);
-    swap(&x,&y);
-    printf("ip %d r %d\n", *ip,*r);
-    return 0;
-}
-*/
 void swap(int *px, int *py) {
     int t;
     t = *px;
@@ -40,12 +16,12 @@ void printDynamicArray(int n, const int *arr) {
     }
     printf("\n");
 }
-// Генерировать случайного целого числа из диапозона [lower, upper].
 int iRandom(int lower, int upper) {
     int num = (rand() % (upper - lower + 1)) + lower;
     return num;
 }
-void sort1(int n, int *arr){
+
+void sort1_mintomax(int n, int *arr){
     int i,minj,j,t=0;
     for(i=0;i<=n-1;i++){
         int min=100;
@@ -53,13 +29,56 @@ void sort1(int n, int *arr){
             if(arr[j]<min){
                 min=arr[j];
                 minj=j;
-                printf("min %d\n",min);
             }
         }swap(&arr[minj],&arr[i]);
-        printf("%d\n",i);
-        printDynamicArray(n, arr);
         t=t+1;
     }
+}
+void sort1_maxtomin(int n, int *arr){
+    int i,maxj,j,t=0;
+    for(i=0;i<=n-1;i++){
+        int max=-100;
+        for(j=t;j<=n-1;j++){
+            if(arr[j]>max){
+                max=arr[j];
+                maxj=j;
+            }
+        }swap(&arr[maxj],&arr[i]);
+        t=t+1;
+    }
+}
+
+void sort2_mintomax(int n, int *arr){
+    int k=1;
+    for(int i=0;i<=n-1;i++){
+        for(int j=n-1;j>=k;j--){ //!!!!!!!!!!!!!!!!
+            if(arr[j]<arr[j-1]){
+                swap(&arr[j],&arr[j-1]);
+            }
+        }k=k+1;
+    }
+}
+void sort2_maxtomin(int n, int *arr){
+    int k=1;
+    for(int i=0;i<=n-1;i++){
+        for(int j=n-1;j>=k;j--){ //!!!!!!!!!!!!!!!!
+            if(arr[j-1]<arr[j]){
+                swap(&arr[j],&arr[j-1]);
+            }
+        }k=k+1;
+    }
+}
+
+void res(int n, int *arr){
+    int *arr1 = calloc(n, sizeof(int)); //first vers - copy
+    memcpy(arr1,arr,n*4);
+    printDynamicArray(n, arr1);
+    memcpy(arr,arr1,n*4);
+    printf("Заданный массив arr: ");
+    printDynamicArray(n, arr); // first vers
+    sort1_mintomax(n,arr);
+    printf("after sort1-1: ");
+    printDynamicArray(n, arr); //after sort1-2
 }
 
 int main() {
@@ -73,16 +92,43 @@ int main() {
     }srand(time(0));
     rand();
     for (int i = 0; i < n; i++) {
-        // целая случайная величина
         arr[i] = iRandom(1, 9);
-    }
-    printf("Заданный массив: ");
+    }/*
+    int *arr1 = calloc(n, sizeof(int)); //first vers - copy
+    memcpy(arr1,arr,n*4);
+    printDynamicArray(n, arr1);
+
+
+    memcpy(arr,arr1,n*4);
+    printf("Заданный массив arr: ");
+    printDynamicArray(n, arr); // first vers
+    sort1_mintomax(n,arr);
+    printf("after sort1-1: ");
+    printDynamicArray(n, arr); //after sort1-2
+
+    memcpy(arr,arr1,n*4);
+    printf("after memcpy: ");
     printDynamicArray(n, arr);
+    printf("after sort1-2: ");
+    sort1_maxtomin(n,arr);
+    printDynamicArray(n, arr); //after sort1-2
     printf("\n");
-    sort1(n,arr);
-    printf("Заданный массив: ");
-    printDynamicArray(n, arr);
-    printf("\n");
+
+    memcpy(arr,arr1,n*4);
+    printf("after memcpy: ");
+    printDynamicArray(n, arr); // first vers
+    sort2_mintomax(n,arr);
+    printf("after sort2-1: ");
+    printDynamicArray(n, arr); //after sort1-2
+
+    memcpy(arr,arr1,n*4);
+    printf("after memcpy: ");
+    printDynamicArray(n, arr); // first vers
+    sort2_maxtomin(n,arr);
+    printf("after sort2-1: ");
+    printDynamicArray(n, arr); //after sort1-2
+*/
+    res(n,arr);
     return EXIT_SUCCESS;
 }
 
