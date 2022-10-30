@@ -12,9 +12,8 @@ void swap(int *px, int *py) {
 }
 void printDynamicArray(int n, const int *arr) {
     for (int i = 0; i < n; i++) {
-        printf("%d ", *(arr + i)); // разыменование указателя
+        printf(" %d", *(arr + i)); // разыменование указателя
     }
-    printf("\n");
 }
 int iRandom(int lower, int upper) {
     int num = (rand() % (upper - lower + 1)) + lower;
@@ -48,8 +47,7 @@ void sort1_maxtomin(int n, int *arr){
             }
         }if(arr[maxj]!=arr[i]){
             swap(&arr[maxj],&arr[i]);srav+=1;
-        }
-        t=t+1;
+        }t=t+1;
     }
 }
 
@@ -83,28 +81,66 @@ int F_perest(int n, int *arr,int *arr1){
         }
     }return perest;
 } //perestanovki
+
 void res(int n, int *arr){
-    for(int a=0;a<5;a++){
+
+    //возрастание
+    for(int a=0;a<3;a++){
         int *arr1 = calloc(n, sizeof(int)); //first vers - copy
         memcpy(arr1,arr,n*4);
-        printDynamicArray(n, arr1); printf("\n");
+
+        printf("Количество элементов: 5. Заданный массив:");
+        printDynamicArray(n, arr1);
+        printf(". Сортировка по возрастанию\n");
+
         if (a=1){
             sort1_mintomax(n,arr1);
-            printDynamicArray(n, arr1);
-            printf("srav1 %d\n",srav);
-            printf("per %d\n",F_perest(n,arr,arr1));
-        }if (a=2){
+            printDynamicArray(n, arr1);printf("\n");
+            printf("srav1 %d\n",srav);printf("per %d\n",F_perest(n,arr,arr1));
+
+            printf("sorted\n");
+            sort1_mintomax(n,arr1);
+            printDynamicArray(n, arr1);printf("\n");
+            printf("srav1 %d\n",srav);printf("per %d\n",0);
+        }
+        if (a=2){
             sort1_maxtomin(n,arr1);
-            printDynamicArray(n, arr1);
+            printDynamicArray(n, arr1);printf("\n");
             printf("srav2 %d\n",srav); printf("per %d\n",F_perest(n,arr,arr1));
-        }if (a=3){
+
+            printf("sorted\n");
+            sort1_maxtomin(n,arr1);
+            printDynamicArray(n, arr1);printf("\n");
+            printf("srav2 %d\n",srav);printf("per %d\n",0);
+        }
+    }
+
+    //убывание
+    for(int b=0;b<3;b++){
+        int *arr1 = calloc(n, sizeof(int)); //first vers - copy
+        memcpy(arr1,arr,n*4);
+
+        printf("Количество элементов: 5. Заданный массив:");
+        printDynamicArray(n, arr1);
+        printf(". Сортировка по убыванию\n");
+        if (b=3){
             sort2_mintomax(n,arr1);
-            printDynamicArray(n, arr1);
+            printDynamicArray(n, arr1);printf("\n");
             printf("srav3 %d\n",srav); printf("per %d\n",F_perest(n,arr,arr1));
-        }if (a=4){
+
+            printf("sorted\n");
+            sort2_mintomax(n,arr1);
+            printDynamicArray(n, arr1);printf("\n");
+            printf("srav3 %d\n",srav);printf("per %d\n",0);
+        }if (b=4){
             sort2_maxtomin(n,arr1);
-            printDynamicArray(n, arr1);
+            printDynamicArray(n, arr1); printf("\n");
             printf("srav4 %d\n",srav); printf("per %d\n",F_perest(n,arr,arr1));
+
+            printf("sorted\n");
+            sort2_maxtomin(n,arr1);
+            printDynamicArray(n, arr1);printf("\n");
+            printf("srav4 %d\n",srav);printf("per %d\n",0);
         }
     }
 } //адекватный вывод
@@ -127,7 +163,7 @@ int main() {
 }
 /* Безумный вывод :(
  *
- * 
+ *
     int *arr1 = calloc(n, sizeof(int)); //first vers - copy
     memcpy(arr1,arr,n*4);
     printDynamicArray(n, arr1);
